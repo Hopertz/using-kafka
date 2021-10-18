@@ -1,0 +1,37 @@
+docker-compose -f docker-compose.yml up -d
+docker ps
+
+Starting Kafka Shell in interactive mode
+docker exec -it kafka /bin/sh
+cd opt/kafka
+
+Create Topic
+kafka-topics.sh --create --zookeeper zookeeper:2181 --replication-factor 1 --partitions 1 --topic first_kafka_topic
+
+List Topics
+kafka-topics.sh --list --zookeeper zookeper:2181
+
+Describe Topic
+kafka-topics.sh --describe --zookeeper zookeper:2181 --topic dummy_topic
+
+Delete Topic
+kafka-topics.sh --delete --zookeeper zookeper:2181 --topic first_kafka_topic
+
+
+Running Kafka producer
+kafka-console-producer.sh --broker-list kafka:9092 --topic messages
+
+example of producer input
+{'user_id':1, 'receipient_id': 2, 'message': 'Hi.'}
+{'user_id':2, 'receipient_id': 1, 'message': 'Hello there.'}
+
+Running Kafka consumer
+
+kafka-console-consumer.sh --bootstrap-server kafka:9092 --topic messages
+
+example of consumer log output
+{'user_id':1, 'receipient_id': 2, 'message': 'Hi.'}
+{'user_id':2, 'receipient_id': 1, 'message': 'Hello there.'}
+
+Getting messages from beginning
+kafka-console-consumer.sh --bootstrap-server kafka:9092 --topic messages --from-beginning
